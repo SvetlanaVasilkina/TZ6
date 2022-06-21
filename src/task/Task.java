@@ -1,28 +1,67 @@
 package task;
 
+import java.util.Objects;
+
 public class Task {
 
-    public String taskName;
-    public String taskDescription;
-    public String status;
-    private int taskID;
+    private String name;
+    private String description;
+    private TaskStatus status;
+    private int Id;
 
-    public int getTaskID() {
-        return taskID;
-    }
-
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
-    }
-
-    public Task() {
-    }
-
-    public Task(String taskName, String taskDescription, String status) {
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
+    public Task(String name, String description, TaskStatus status) {
+        this.name = name;
+        this.description = description;
         this.status = status;
-        this.taskID = 0;
+        this.Id = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        this.Id = id;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Id == task.Id && name.equals(task.name) &&
+                description.equals(task.description) && status.equals(task.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, status, Id);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", taskId=" + Id +
+                '}';
     }
 }
 
