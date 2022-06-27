@@ -1,18 +1,27 @@
+package manager;
+
 import task.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Manager {
-
+public class InMemoryTaskManager implements TaskManager {
+    private final HistoryManager historyManager;
     private int Id = 0;
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
+
+    //Сгенерировать Id
     private int generateId() {
         return Id += 1;
     }
 
+    //Получить список эпиков
+    @Override
     public ArrayList<Epic> getAllEpics() {
         ArrayList <Epic> epicsList = new ArrayList<>();
         for (Integer id: epics.keySet()) {
@@ -21,6 +30,8 @@ public class Manager {
         return epicsList;
     }
 
+    //Получить список задач
+    @Override
     public ArrayList<Task> getAllTasks() {
         ArrayList <Task> tasksList = new ArrayList<>();
 
@@ -30,6 +41,8 @@ public class Manager {
         return tasksList;
     }
 
+    //Получить список подзадач
+    @Override
     public ArrayList<Subtask> getAllSubTasks() {
         ArrayList <Subtask> subtasksList = new ArrayList<>();
 
@@ -40,18 +53,21 @@ public class Manager {
     }
 
     //удалить все задачи
+    @Override
     public void clearAllTasks() {
         tasks.clear();
         System.out.println("Задачи удалены");
     }
 
     //удалить все эпики
+    @Override
     public void clearAllEpics() {
         epics.clear();
         System.out.println("Эпики удалены");
     }
 
     //удалить все подзадачи
+    @Override
     public void clearAllSubTasks() {
         subtasks.clear();
         System.out.println("Подзадачи удалены");
@@ -62,37 +78,53 @@ public class Manager {
         }
     }
 
+    //Получить эпик по id
+    @Override
     public Epic getEpicById(int id) {
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
+    //Получить задачу по id
+    @Override
     public Task getTaskById(int id) {
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
+    //Получить подзадачу по id
+    @Override
     public Subtask getSubtaskById(int id) {
+        historyManager.add(subtasks.get(id));
         return subtasks.get(id);
     }
 
+    //Удалить эпик по id
+    @Override
     public void removeEpicById(int id) {
         epics.remove(id);
     }
 
+    //Удалить задачу по id
+    @Override
     public void removeTaskById(int id) {
         tasks.remove(id);
     }
 
+    //Удалить подзадачу по id
+    @Override
     public void removeSubtaskById(int id) {
         subtasks.remove(id);
     }
 
     //получить список подзадач эпика
-    public ArrayList<String> getEpicsSubtasks(Epic epic) {
-        ArrayList<String> taskNames = new ArrayList<>();
+    @Override
+    public ArrayList<Subtask> getEpicsSubtasks(Epic epic) {
+        ArrayList<Subtask> epicsSubtasks = new ArrayList<>();
         for (Subtask subTask: epic.subtasks) {
-            taskNames.add(subTask.getName());
+            epicsSubtasks.add(subTask);
         }
-        return taskNames;
+        return epicsSubtasks;
     }
 
     //изменить статуса эпика
@@ -125,6 +157,7 @@ public class Manager {
     }
 
     //добавить задачу
+    @Override
     public void addTask(Task task) {
         Id = generateId();
         task.setId(Id);
@@ -132,6 +165,7 @@ public class Manager {
     }
 
     //добавить эпик
+    @Override
     public void addEpic(Epic epic) {
         Id = generateId();
         epic.setId(Id);
@@ -140,6 +174,7 @@ public class Manager {
     }
 
     //добавить подзадачу
+    @Override
     public void addSubTask(Subtask subTask) {
         Id = generateId();
         subTask.setId(Id);
@@ -148,19 +183,23 @@ public class Manager {
     }
 
     //обновить задачу
+    @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
     }
 
     //обновить эпик
+    @Override
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
         changeEpicStatus(epic);
     }
 
     //обновить подзадачу
+    @Override
     public void updateSubTask(Subtask subTask) {
         subtasks.put(subTask.getId(), subTask);
         changeEpicStatus(subTask.getEpic());
     }
+
 }

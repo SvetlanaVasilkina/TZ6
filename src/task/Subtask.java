@@ -1,8 +1,10 @@
 package task;
 
+import java.util.Objects;
+
 public class Subtask extends Task {
 
-    private Epic epic;
+    private final Epic epic;
 
     public Subtask(String name, String description, TaskStatus status, Epic epic) {
         super(name, description, status);
@@ -21,9 +23,9 @@ public class Subtask extends Task {
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
                 ", taskId=" + getId() +
-                '}';
+                '}' + '\n';
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Task {
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private TaskStatus status;
     private int Id;
 
@@ -61,7 +61,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", taskId=" + Id +
-                '}';
+                '}' + '\n';
     }
 }
 
