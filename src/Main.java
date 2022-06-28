@@ -70,7 +70,6 @@ public class Main {
         inMemoryTaskManager.getEpicById(2);
         inMemoryTaskManager.getEpicById(2);
 
-        System.out.println("История просмотров: " + historyManager.getHistory());
-
+        System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());
     }
 }

@@ -9,7 +9,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (tasksHistoryView.size() < 10) {
+        int maxHistorySize = 10; // max размер истории просмотров
+
+        if (tasksHistoryView.size() < maxHistorySize) {
             tasksHistoryView.add(task);
         } else {
             tasksHistoryView.remove(0);

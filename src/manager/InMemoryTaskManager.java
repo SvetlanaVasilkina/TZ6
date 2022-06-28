@@ -3,6 +3,7 @@ package manager;
 import task.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager;
@@ -20,10 +21,16 @@ public class InMemoryTaskManager implements TaskManager {
         return Id += 1;
     }
 
+    //получить историю просмотров задач
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
     //Получить список эпиков
     @Override
-    public ArrayList<Epic> getAllEpics() {
-        ArrayList <Epic> epicsList = new ArrayList<>();
+    public List<Epic> getAllEpics() {
+        List<Epic> epicsList = new ArrayList<>();
         for (Integer id: epics.keySet()) {
             epicsList.add(epics.get(id));
         }
@@ -32,8 +39,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Получить список задач
     @Override
-    public ArrayList<Task> getAllTasks() {
-        ArrayList <Task> tasksList = new ArrayList<>();
+    public List<Task> getAllTasks() {
+        List <Task> tasksList = new ArrayList<>();
 
         for (Integer id: tasks.keySet()) {
             tasksList.add(tasks.get(id));
@@ -43,8 +50,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Получить список подзадач
     @Override
-    public ArrayList<Subtask> getAllSubTasks() {
-        ArrayList <Subtask> subtasksList = new ArrayList<>();
+    public List<Subtask> getAllSubTasks() {
+        List <Subtask> subtasksList = new ArrayList<>();
 
         for (Integer id: subtasks.keySet()) {
             subtasksList.add(subtasks.get(id));
@@ -119,8 +126,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     //получить список подзадач эпика
     @Override
-    public ArrayList<Subtask> getEpicsSubtasks(Epic epic) {
-        ArrayList<Subtask> epicsSubtasks = new ArrayList<>();
+    public List<Subtask> getEpicsSubtasks(Epic epic) {
+        List<Subtask> epicsSubtasks = new ArrayList<>();
         for (Subtask subTask: epic.subtasks) {
             epicsSubtasks.add(subTask);
         }
@@ -129,8 +136,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     //изменить статуса эпика
     private void changeEpicStatus(Epic epic) {
-        ArrayList<Subtask> newList = new ArrayList<>();
-        ArrayList<Subtask> doneList = new ArrayList<>();
+        List<Subtask> newList = new ArrayList<>();
+        List<Subtask> doneList = new ArrayList<>();
         boolean isNew = false;
         boolean isDone = false;
         for (Subtask subTask: epic.subtasks) {
