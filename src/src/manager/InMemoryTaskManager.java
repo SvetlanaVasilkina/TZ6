@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager;
-    private int Id = 0;
+    private int id = 0;
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Сгенерировать Id
     private int generateId() {
-        return Id += 1;
+        return id += 1;
     }
 
     //получить историю просмотров задач
@@ -109,19 +109,25 @@ public class InMemoryTaskManager implements TaskManager {
     //Удалить эпик по id
     @Override
     public void removeEpicById(int id) {
+        for (Subtask subtask: epics.get(id).subtasks) {
+            historyManager.remove(subtask.getId());
+        }
         epics.remove(id);
+        historyManager.remove(id);
     }
 
     //Удалить задачу по id
     @Override
     public void removeTaskById(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     //Удалить подзадачу по id
     @Override
     public void removeSubtaskById(int id) {
         subtasks.remove(id);
+        historyManager.remove(id);
     }
 
     //получить список подзадач эпика
@@ -166,26 +172,26 @@ public class InMemoryTaskManager implements TaskManager {
     //добавить задачу
     @Override
     public void addTask(Task task) {
-        Id = generateId();
-        task.setId(Id);
-        tasks.put(Id, task);
+        id = generateId();
+        task.setId(id);
+        tasks.put(id, task);
     }
 
     //добавить эпик
     @Override
     public void addEpic(Epic epic) {
-        Id = generateId();
-        epic.setId(Id);
-        epics.put(Id,epic);
+        id = generateId();
+        epic.setId(id);
+        epics.put(id,epic);
         changeEpicStatus(epic);
     }
 
     //добавить подзадачу
     @Override
     public void addSubTask(Subtask subTask) {
-        Id = generateId();
-        subTask.setId(Id);
-        subtasks.put(Id, subTask);
+        id = generateId();
+        subTask.setId(id);
+        subtasks.put(id, subTask);
         changeEpicStatus(subTask.getEpic());
     }
 

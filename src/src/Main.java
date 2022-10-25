@@ -18,8 +18,8 @@ public class Main {
         Subtask subtask2 = new Subtask("взять кота", "взять переноску для кота",
                 TaskStatus.NEW, epic1);
         Epic epic2 = new Epic("найти новую работу", "искать работу в интернете");
-        Subtask subtask3 = new Subtask("подготовить резюме", "обновить стаж работы",
-                TaskStatus.NEW, epic2);
+        Subtask subtask3 = new Subtask("вспомнить про хомячка", "искать его везде",
+                TaskStatus.NEW, epic1);
         Task task1 = new Task("купить продукты", "сходить в магазин", TaskStatus.NEW);
         Task task2 = new Task("согласовать отпуск на работе", "написать заявление", TaskStatus.NEW);
 
@@ -44,11 +44,7 @@ public class Main {
         System.out.println("Список подзадач: " + inMemoryTaskManager.getAllSubTasks());
 
         //Печать списка подзадач эпика
-        System.out.println("Эпик: " + epic2.getName() + ". Cписок подзадач: " + inMemoryTaskManager.getEpicsSubtasks(epic2));
-
-        //Удалить задачу
-        int key = task1.getId();
-        inMemoryTaskManager.removeTaskById(key);
+        System.out.println("Эпик: " + epic1.getName() + ". Cписок подзадач: " + inMemoryTaskManager.getEpicsSubtasks(epic1));
 
         inMemoryTaskManager.updateEpic(epic2);
 
@@ -60,16 +56,31 @@ public class Main {
         inMemoryTaskManager.getEpicById(1);
         inMemoryTaskManager.getEpicById(2);
         inMemoryTaskManager.getSubtaskById(3);
-        inMemoryTaskManager.getSubtaskById(4);
         inMemoryTaskManager.getSubtaskById(5);
-        inMemoryTaskManager.getEpicById(1);
-        inMemoryTaskManager.getEpicById(2);
-        inMemoryTaskManager.getEpicById(2);
-        inMemoryTaskManager.getEpicById(2);
-        inMemoryTaskManager.getEpicById(2);
-        inMemoryTaskManager.getEpicById(2);
-        inMemoryTaskManager.getEpicById(2);
 
+        //первый вызов истории просмотров, должны быть задачи 1,2,3,5
+        System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getSubtaskById(4);
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getEpicById(2);
+        inMemoryTaskManager.getTaskById(6);
+        inMemoryTaskManager.getTaskById(7);
+
+        //второй вызов истории просмотров, должны быть задачи 1,3,5,4,2,6,7
+        System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());
+
+        // удалить задачу (task id - 6)
+        inMemoryTaskManager.removeTaskById(task1.getId());
+
+        // удалить эпик с тремя подзадачами
+        inMemoryTaskManager.removeEpicById(epic1.getId());
+
+        //третий вызов истории просмотров, должны быть задачи 2,7
         System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());
     }
 }
