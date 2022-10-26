@@ -4,11 +4,15 @@ import java.util.List;
 
 public class Epic extends Task {
 
-    public List<Subtask> subtasks;
+    private List<Subtask> subtasks;
 
     public Epic(String name, String description) {
         super(name, description, null);
         this.subtasks = new ArrayList<>();
+    }
+
+    public List<Subtask> getSubtasks() {
+        return subtasks;
     }
 
     @Override

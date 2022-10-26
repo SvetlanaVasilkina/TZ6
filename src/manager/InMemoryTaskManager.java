@@ -78,10 +78,9 @@ public class InMemoryTaskManager implements TaskManager {
     public void clearAllSubTasks() {
         subtasks.clear();
         System.out.println("Подзадачи удалены");
-        if (epics != null) {
-            for (Epic epic: epics.values()) {
-                changeEpicStatus(epic);
-            }
+
+        for (Epic epic: epics.values()) {
+            changeEpicStatus(epic);
         }
     }
 
@@ -109,7 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
     //Удалить эпик по id
     @Override
     public void removeEpicById(int id) {
-        for (Subtask subtask: epics.get(id).subtasks) {
+        for (Subtask subtask: epics.get(id).getSubtasks()) {
             historyManager.remove(subtask.getId());
         }
         epics.remove(id);
@@ -133,11 +132,7 @@ public class InMemoryTaskManager implements TaskManager {
     //получить список подзадач эпика
     @Override
     public List<Subtask> getEpicsSubtasks(Epic epic) {
-        List<Subtask> epicsSubtasks = new ArrayList<>();
-        for (Subtask subTask: epic.subtasks) {
-            epicsSubtasks.add(subTask);
-        }
-        return epicsSubtasks;
+        return epic.getSubtasks();
     }
 
     //изменить статуса эпика
@@ -146,7 +141,7 @@ public class InMemoryTaskManager implements TaskManager {
         List<Subtask> doneList = new ArrayList<>();
         boolean isNew = false;
         boolean isDone = false;
-        for (Subtask subTask: epic.subtasks) {
+        for (Subtask subTask: epic.getSubtasks()) {
             if (subTask.getStatus() == TaskStatus.NEW) {
                 newList.add(subTask);
             } else if (subTask.getStatus() == TaskStatus.DONE) {
@@ -154,13 +149,13 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
 
-        if (newList.size() == epic.subtasks.size()) {
+        if (newList.size() == epic.getSubtasks().size()) {
             isNew = true;
-        } else if (doneList.size() == epic.subtasks.size()) {
+        } else if (doneList.size() == epic.getSubtasks().size()) {
             isDone = true;
         }
 
-        if (epic.subtasks == null || (isNew)) {
+        if (isNew) {
             epic.setStatus(TaskStatus.NEW);
         } else if (isDone) {
             epic.setStatus(TaskStatus.DONE);

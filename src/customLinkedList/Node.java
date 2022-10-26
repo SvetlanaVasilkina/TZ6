@@ -1,4 +1,4 @@
-package manager;
+package customLinkedList;
 
 public class Node<Task> {
 
