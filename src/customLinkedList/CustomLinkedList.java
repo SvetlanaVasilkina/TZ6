@@ -18,10 +18,10 @@ public class CustomLinkedList<Task> {
         }
     }
 
-    public List<Task> getTasks(CustomLinkedList<Task> list) {
+    public List<Task> getTasks() {
         List<Task> aList = new ArrayList<>();
-        Node<Task> node = list.head.getNext();
-        aList.add(list.head.getTask());
+        Node<Task> node = head.getNext();
+        aList.add(head.getTask());
 
         while (node != null) {
             aList.add(node.getTask());

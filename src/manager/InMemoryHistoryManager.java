@@ -1,6 +1,5 @@
 package manager;
 
-import customLinkedList.Node;
 import task.*;
 import customLinkedList.*;
 import java.util.*;
@@ -27,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return customLinkedList.getTasks(customLinkedList);
+        return customLinkedList.getTasks();
     }
 
 
