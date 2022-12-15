@@ -1,3 +1,4 @@
+import manager.FileBackedTasksManager;
 import manager.HistoryManager;
 import manager.Manager;
 import manager.TaskManager;
@@ -6,13 +7,30 @@ import task.Subtask;
 import task.Task;
 import task.TaskStatus;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         HistoryManager historyManager = Manager.getDefaultHistory();
-        TaskManager inMemoryTaskManager = Manager.getDefault(historyManager);
+       TaskManager inMemoryTaskManager = Manager.getDefault(historyManager);
+        Task task12 = new Task("Задача 1", "Описание задачи1", TaskStatus.NEW);
+        Task task13 = new Task("Задача 2", "Описание задачи2", TaskStatus.IN_PROGRESS);
+        //Path path = Files.createFile(Paths.get("C:\\Users\\М Видео\\file.csv"));
+         File file = new File(String.valueOf("C:\\Users\\М Видео\\file.csv"));
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
+
+        fileBackedTasksManager.addTask(task12);
+        fileBackedTasksManager.addTask(task13);
+        fileBackedTasksManager.getTaskById(task13.getId());
+        //inMemoryTaskManager.getTaskById(task12.getId());
+
         System.out.println("Поехали!");
-        Epic epic1 = new Epic("переезд", "в другой город");
+        /*Epic epic1 = new Epic("переезд", "в другой город");
         Subtask subtask1 = new Subtask("собрать вещи", "запоковать все в коробки",
                 TaskStatus.NEW, epic1);
         Subtask subtask2 = new Subtask("взять кота", "взять переноску для кота",
@@ -81,6 +99,6 @@ public class Main {
         inMemoryTaskManager.removeEpicById(epic1.getId());
 
         //третий вызов истории просмотров, должны быть задачи 2,7
-        System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());
+        System.out.println("История просмотров: " + inMemoryTaskManager.getHistory());*/
     }
 }

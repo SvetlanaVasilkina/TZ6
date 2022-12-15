@@ -1,4 +1,4 @@
-package customLinkedList;
+package customlist;
 
 import java.util.ArrayList;
 import java.util.List;

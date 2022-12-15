@@ -1,12 +1,12 @@
 package manager;
 
 import task.*;
-import customLinkedList.*;
+import customlist.*;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final CustomLinkedList<Task> customLinkedList = new CustomLinkedList<>();
-    private final Map<Integer, Node<Task>> hashList = new HashMap<>();
+    protected final CustomLinkedList<Task> customLinkedList = new CustomLinkedList<>();
+    protected final Map<Integer, Node<Task>> hashList = new HashMap<>();
 
     @Override
     public void remove(int id) {

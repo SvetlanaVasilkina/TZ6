@@ -1,5 +1,7 @@
 package manager;
 
+import java.io.File;
+
 public class Manager {
     public static TaskManager getDefault(HistoryManager historyManager) {
         return new InMemoryTaskManager(historyManager);
