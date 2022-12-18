@@ -13,4 +13,8 @@ public interface HistoryManager {
 
     //получить историю просмотров задач
     List<Task> getHistory();
+
+    boolean isEmpty();
+
+
 }

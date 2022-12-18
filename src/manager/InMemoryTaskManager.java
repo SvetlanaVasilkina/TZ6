@@ -1,15 +1,18 @@
 package manager;
 
-import task.*;
+import task.Epic;
+import task.Subtask;
+import task.Task;
+import task.TaskStatus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class InMemoryTaskManager implements TaskManager {
 
     protected HistoryManager historyManager;
-    private int id = 0;
+    protected int id = 0;
 
     public HashMap<Integer, Epic> getEpics() {
         return epics;
@@ -23,16 +26,13 @@ public class InMemoryTaskManager implements TaskManager {
         return subtasks;
     }
 
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
 
     public InMemoryTaskManager() {
-    }
-
-    public InMemoryTaskManager(HistoryManager historyManager) {
-        this.historyManager = historyManager;
+        this.historyManager = Manager.getDefaultHistory();
     }
 
     //Сгенерировать Id
@@ -155,7 +155,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //изменить статуса эпика
-    private void changeEpicStatus(Epic epic) {
+    protected void changeEpicStatus(Epic epic) {
         List<Subtask> newList = new ArrayList<>();
         List<Subtask> doneList = new ArrayList<>();
         boolean isNew = false;
@@ -186,16 +186,20 @@ public class InMemoryTaskManager implements TaskManager {
     //добавить задачу
     @Override
     public void addTask(Task task) {
-        id = generateId();
-        task.setId(id);
+        if (task.getId() == 0) {
+            id = generateId();
+            task.setId(id);
+        }
         tasks.put(id, task);
     }
 
     //добавить эпик
     @Override
     public void addEpic(Epic epic) {
-        id = generateId();
-        epic.setId(id);
+        if (epic.getId() == 0) {
+            id = generateId();
+            epic.setId(id);
+        }
         epics.put(id,epic);
         changeEpicStatus(epic);
     }
@@ -203,10 +207,14 @@ public class InMemoryTaskManager implements TaskManager {
     //добавить подзадачу
     @Override
     public void addSubTask(Subtask subTask) {
-        id = generateId();
-        subTask.setId(id);
+        if (subTask.getId() == 0) {
+            id = generateId();
+            subTask.setId(id);
+        }
         subtasks.put(id, subTask);
-        changeEpicStatus(subTask.getEpic());
+        Epic epic = epics.get(subTask.getEpicId());
+        epic.getSubtasks().add(subTask);
+        changeEpicStatus(epic);
     }
 
     //обновить задачу
@@ -226,7 +234,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubTask(Subtask subTask) {
         subtasks.put(subTask.getId(), subTask);
-        changeEpicStatus(subTask.getEpic());
+        changeEpicStatus(epics.get(subTask.getEpicId()));
     }
 
 }

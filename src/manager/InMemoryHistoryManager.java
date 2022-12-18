@@ -5,6 +5,8 @@ import customlist.*;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
+
+
     protected final CustomLinkedList<Task> customLinkedList = new CustomLinkedList<>();
     protected final Map<Integer, Node<Task>> hashList = new HashMap<>();
 
@@ -27,6 +29,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return customLinkedList.getTasks();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return customLinkedList.isEmpty();
     }
 
 

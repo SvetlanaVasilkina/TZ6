@@ -3,6 +3,7 @@ package customlist;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CustomLinkedList<Task> {
     private Node<Task> head;
     private Node<Task> tail;
@@ -50,5 +51,13 @@ public class CustomLinkedList<Task> {
 
     public Node<Task> getTail() {
         return tail;
+    }
+
+    public boolean isEmpty() {
+        if (head == null) {
+        return true;
+        } else {
+        return false;
+        }
     }
 }
